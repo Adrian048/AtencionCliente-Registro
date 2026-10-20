@@ -1,0 +1,123 @@
+# Only the panel (8080) and the n8n editor (5678) are published, and only on localhost.
+# Public traffic enters through the panel's nginx, which proxies /api and the webhook
+# with rate limiting. Postgres and the API are reachable only inside the compose network.
+#
+# There is no .env: every secret is a file in ./secrets (create them with
+# `python scripts/generate_secrets.py`), mounted read-only under /run/secrets/ only
+# in the containers that need it. Secrets never appear in environment variables,
+# so they don't show up in `docker inspect`.
+
+x-hardening: &hardening
+  read_only: true
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  restart: unless-stopped
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password
+  api_db_password:
+    file: ./secrets/api_db_password
+  n8n_encryption_key:
+    file: ./secrets/n8n_encryption_key
+  triage_session_secret:
+    file: ./secrets/triage_session_secret
+  triage_data_encryption_key:
+    file: ./secrets/triage_data_encryption_key
+  triage_ingest_api_key:
+    file: ./secrets/triage_ingest_api_key
+  triage_admin_password_hash:
+    file: ./secrets/triage_admin_password_hash
+  webhook_api_key:
+    file: ./secrets/webhook_api_key
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: triage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+      - api_db_password # read by db/init/02_roles.sh to create the panel_api role
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d triage"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  n8n:
+    # Keep n8n on the current stable release: older versions have had critical CVEs.
+    image: n8nio/n8n:${N8N_VERSION:-2.43.8}
+    environment:
+      # n8n encrypts every stored credential (e.g. the Claude API key) with this key
+      N8N_ENCRYPTION_KEY_FILE: /run/secrets/n8n_encryption_key
+      WEBHOOK_URL: http://localhost:8080/          # public entry (nginx)
+      N8N_EDITOR_BASE_URL: http://localhost:5678/  # editor, localhost only
+      N8N_SECURE_COOKIE: "false"                   # editor served over plain http on localhost
+      GENERIC_TIMEZONE: Europe/Madrid
+      TZ: Europe/Madrid
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+      # Executions contain customer data: keep only failures, and only for 7 days.
+      EXECUTIONS_DATA_SAVE_ON_SUCCESS: none
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: 168
+    secrets:
+      - n8n_encryption_key
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./n8n/workflows:/workflows:ro
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  api:
+    <<: *hardening
+    build: ./api
+    environment:
+      # Non-secret settings only
+      TRIAGE_ENV: ${TRIAGE_ENV:-prod}
+      TRIAGE_ADMIN_USER: ${TRIAGE_ADMIN_USER:-admin}
+      TRIAGE_COOKIE_SECURE: ${TRIAGE_COOKIE_SECURE:-false} # true behind HTTPS
+    secrets:
+      - source: api_db_password
+        target: triage_db_password
+      - triage_session_secret
+      - triage_data_encryption_key
+      - triage_ingest_api_key
+      - triage_admin_password_hash
+    tmpfs:
+      - /tmp
+    depends_on:
+      db:
+        condition: service_healthy
+
+  panel:
+    <<: *hardening
+    build: ./panel
+    ports:
+      - "127.0.0.1:8080:8080"
+    secrets:
+      - webhook_api_key # nginx adds it to requests from the public contact form
+    tmpfs:
+      - /tmp
+    # No depends_on: nginx resolves api/n8n per request, so the panel can start
+    # (and keep running) independently of them.
+
+volumes:
+  pgdata:
+  n8n-data:
