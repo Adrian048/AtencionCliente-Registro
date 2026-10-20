@@ -1,0 +1,85 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"   # weekly, to catch newly published CVEs
+
+permissions:
+  contents: read
+
+jobs:
+  sast:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - run: >-
+          semgrep scan --error
+          --config p/python --config p/typescript
+          --config p/owasp-top-ten --config p/secrets --config p/dockerfile
+
+  dependencies:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: pip-audit (api)
+        run: pip install pip-audit && pip-audit --strict ./api
+      - name: npm audit (panel)
+        working-directory: panel
+        run: npm ci && npm audit --audit-level=high
+
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  images:
+    name: Container scan (Trivy)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [api, panel]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t triage-${{ matrix.service }}:ci ./${{ matrix.service }}
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: triage-${{ matrix.service }}:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+
+  dast:
+    name: DAST (OWASP ZAP baseline)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start stack
+        run: |
+          python scripts/generate_secrets.py --no-admin
+          docker compose up -d --build --wait --wait-timeout 180
+      - uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: http://localhost:8080
+          rules_file_name: .zap/rules.tsv
+          allow_issue_writing: false
+      - if: always()
+        run: docker compose down -v
