@@ -1,0 +1,2 @@
+# False positive: internal Docker URL (http://api:8000/api/internal/tickets), not a key
+07c171f81df1b615cdc8ba789e6c49fc5b7cfdf5:n8n/workflows/triage-soporte.json:generic-api-key:176

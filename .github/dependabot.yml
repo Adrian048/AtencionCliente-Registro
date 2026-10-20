@@ -3,10 +3,12 @@ updates:
   - package-ecosystem: pip
     directory: /api
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     commit-message: { prefix: "build(api)" }
   - package-ecosystem: npm
     directory: /panel
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     commit-message: { prefix: "build(panel)" }
     groups:
       dev-dependencies:
@@ -14,12 +16,15 @@ updates:
   - package-ecosystem: docker
     directories: [/api, /panel]
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     commit-message: { prefix: "build(docker)" }
   - package-ecosystem: docker-compose
     directory: /
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     commit-message: { prefix: "build(compose)" }
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
     commit-message: { prefix: "ci" }
