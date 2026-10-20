@@ -1,0 +1,2 @@
+# Always LF: the shell scripts run inside Linux containers and break with CRLF
+* text=auto eol=lf

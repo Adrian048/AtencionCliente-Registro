@@ -1,0 +1,32 @@
+# Secrets (Docker secret files) - never commit
+secrets/
+.env
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local-only compose overrides (e.g. publishing the DB port for a desktop client)
+compose.override.yaml
+
+# Local working notes for Claude (state, local paths) - not part of the project
+ContextoClaude/
