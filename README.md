@@ -9,7 +9,7 @@
 ![AES-256-GCM](https://img.shields.io/badge/datos-AES--256--GCM-555)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**Triage de consultas de clientes con IA** para una consultora tecnológica (ficticia). El
+**Triage de consultas de clientes con IA** para **Noxum**, una consultora tecnológica ficticia. El
 formulario de contacto de su **landing** envía la consulta, un workflow de **n8n** la clasifica con **Claude** (categoría, prioridad,
 sentimiento y resumen), la API la **cifra** y la guarda en **PostgreSQL**, y el equipo la
 gestiona desde un **panel propio en Vue 3**, el único sitio donde los datos se ven descifrados.
@@ -59,7 +59,7 @@ flowchart LR
 | `n8n/workflows/` | n8n + Claude (Anthropic) | Recibe, valida y clasifica. No tiene acceso a la base de datos |
 | `api/` | Python 3.12, FastAPI, psycopg 3, `cryptography` | Único componente que toca la base de datos: cifra al guardar y descifra para el panel |
 | `db/init/` | PostgreSQL 16 | Esquema con columnas cifradas (`BYTEA`), `CHECK` y un rol de mínimo privilegio |
-| `panel/` | Vue 3, TypeScript, Vite | Dos páginas: la **landing pública** (`/`) con el formulario de contacto y el **panel de gestión** (`/panel/`) con login, filtros, búsqueda y detalle del ticket |
+| `panel/` | Vue 3, TypeScript, Vite | Dos páginas: la **landing pública** de Noxum (`/`, HTML y CSS con el formulario de contacto como única pieza Vue, fuente servida desde el propio sitio para cumplir la CSP) y el **panel de gestión** (`/panel/`) con login, filtros, búsqueda y detalle del ticket |
 | `panel/nginx.conf` | nginx | Único punto de entrada: sirve ambas páginas, añade la clave del webhook a los envíos del formulario y aplica rate limit |
 | `secrets/` | Docker secrets | Un fichero por secreto, montado en `/run/secrets/`. **No hay `.env`** |
 

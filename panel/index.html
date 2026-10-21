@@ -1,16 +1,387 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Nodal (empresa ficticia): ciberseguridad IT/OT, software a medida e inteligencia artificial aplicada. Demo de portfolio."
-    />
-    <title>Nodal · Ciberseguridad, software a medida e IA</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/landing/main.ts"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noxum · Consultora tecnológica en Madrid</title>
+  <meta name="description" content="Noxum (empresa ficticia): consultora tecnológica en Madrid. Desarrollo a medida, ciberseguridad, IA aplicada y soporte 24/7. Demo de portfolio.">
+  <meta name="theme-color" content="#08090b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090b'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%234d8dff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%234d8dff'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <header class="bar">
+    <div class="frame bar__inner">
+      <a class="brand" href="#inicio" aria-label="Noxum, inicio">
+        <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.6"/></svg>
+        <span>Noxum</span>
+      </a>
+      <nav class="bar__nav" aria-label="Principal">
+        <a class="link" href="#servicios">Servicios</a>
+        <a class="link" href="#guardia">Guardia 24/7</a>
+        <a class="link" href="#metodo">Método</a>
+        <a class="link" href="#preguntas">Preguntas</a>
+      </nav>
+      <a class="button button--sm" href="#contacto">Hablar con un ingeniero</a>
+    </div>
+  </header>
+
+  <main id="contenido" class="page">
+
+    <!-- HERO: qué somos, a la izquierda; el panel de guardia en directo, a la derecha -->
+    <section id="inicio" class="hero frame">
+      <div class="hero__copy">
+        <h1 class="hero__title lines">
+          <span class="line"><span data-line>Tecnología a medida,</span></span>
+          <span class="line"><span data-line>vigilada 24/7</span></span>
+        </h1>
+        <p class="hero__lead" data-load>Noxum es una consultora tecnológica en Madrid. Desarrollamos software a medida, lo protegemos y lo mantenemos en marcha de día y de noche.</p>
+        <div class="hero__actions" data-load>
+          <a class="button" href="#contacto">Hablar con un ingeniero</a>
+          <a class="link link--arrow" href="#servicios">Ver servicios</a>
+        </div>
+        <ul class="hero__facts" data-load>
+          <li><strong>15 min</strong> de respuesta a caídas, a cualquier hora</li>
+          <li><strong>100 %</strong> del código y los accesos a tu nombre</li>
+          <li><strong>Un equipo</strong> en Madrid, sin intermediarios</li>
+        </ul>
+      </div>
+
+      <figure class="hero__panel" data-load>
+        <div class="ui ui--status" data-ui>
+          <div class="ui__head">
+            <span class="ui__title">Guardia Noxum</span>
+            <span class="ui__live"><i></i> En directo · Madrid <b data-clock>00:00</b></span>
+          </div>
+          <ul class="status">
+            <li class="status__row"><span class="status__dot"></span><span class="status__name">API de pagos</span><svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none" data-spark><polyline points=""/></svg><span class="status__val" data-ms="82">82 ms</span></li>
+            <li class="status__row"><span class="status__dot"></span><span class="status__name">Portal de clientes</span><svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none" data-spark><polyline points=""/></svg><span class="status__val" data-ms="143">143 ms</span></li>
+            <li class="status__row"><span class="status__dot"></span><span class="status__name">ERP · producción</span><svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none" data-spark><polyline points=""/></svg><span class="status__val" data-ms="61">61 ms</span></li>
+            <li class="status__row"><span class="status__dot"></span><span class="status__name">Correo corporativo</span><svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none" data-spark><polyline points=""/></svg><span class="status__val" data-ms="38">38 ms</span></li>
+            <li class="status__row"><span class="status__dot status__dot--done"></span><span class="status__name">Copia de seguridad</span><span class="status__note">Verificada · 03:00</span></li>
+          </ul>
+          <div class="ui__sub">Actividad reciente</div>
+          <ol class="log">
+            <li><time>00:31</time><span>Intento de acceso bloqueado desde una IP en lista negra</span><em class="tag tag--ok">Contenido</em></li>
+            <li><time>23:12</time><span>Parche de seguridad aplicado en 4 servidores</span><em class="tag">Hecho</em></li>
+            <li><time>22:00</time><span>Empieza el turno de noche · 2 ingenieros de guardia</span><em class="tag">Turno</em></li>
+          </ol>
+        </div>
+        <figcaption class="hero__caption">Ejemplo del panel que ve cada cliente de guardia.</figcaption>
+      </figure>
+    </section>
+
+    <!-- TECNOLOGÍAS: una sola banda en movimiento -->
+    <section class="stack" aria-labelledby="stack-title">
+      <h2 id="stack-title" class="stack__title frame">Trabajamos con las tecnologías que ya usa tu empresa</h2>
+      <div class="marquee" data-marquee>
+        <ul class="marquee__track">
+          <li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li><li>Kubernetes</li><li>Docker</li><li>Terraform</li><li>Python</li><li>.NET</li><li>Java</li><li>Node.js</li><li>React</li><li>Vue</li><li>PostgreSQL</li><li>SQL Server</li><li>Microsoft 365</li><li>Linux</li>
+        </ul>
+        <ul class="marquee__track" aria-hidden="true">
+          <li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li><li>Kubernetes</li><li>Docker</li><li>Terraform</li><li>Python</li><li>.NET</li><li>Java</li><li>Node.js</li><li>React</li><li>Vue</li><li>PostgreSQL</li><li>SQL Server</li><li>Microsoft 365</li><li>Linux</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SERVICIOS: cuatro áreas, cada una con un fragmento real de su trabajo -->
+    <section id="servicios" class="services frame" aria-labelledby="servicios-title">
+      <div class="section-head">
+        <h2 id="servicios-title" class="head lines"><span class="line"><span data-line>Cuatro áreas, un solo equipo</span></span></h2>
+        <p class="section-head__text" data-reveal>Quien construye tu software es quien lo protege y quien responde cuando falla. Sin pasar el problema de un proveedor a otro.</p>
+      </div>
+
+      <div class="services__grid">
+        <article class="service" data-reveal>
+          <div class="service__text">
+            <h3 class="service__name">Desarrollo a medida</h3>
+            <p>Aplicaciones web y móviles, APIs e integraciones hechas para tu forma de trabajar, con pruebas automáticas desde el primer día.</p>
+            <ul class="service__list"><li>Aplicaciones web y móviles</li><li>APIs e integraciones con ERP y CRM</li><li>Migración de sistemas heredados</li><li>Arquitectura en la nube</li></ul>
+          </div>
+          <div class="ui ui--pipe" data-ui>
+            <div class="ui__head"><span class="ui__title">Despliegue · portal-clientes</span><span class="tag tag--ok">Correcto</span></div>
+            <ol class="pipe">
+              <li class="is-done"><span>Compilación</span><time>0:42</time></li>
+              <li class="is-done"><span>Pruebas · 248 de 248</span><time>2:15</time></li>
+              <li class="is-done"><span>Análisis de seguridad</span><time>1:03</time></li>
+              <li class="is-done"><span>Producción</span><time>0:38</time></li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="service" data-reveal>
+          <div class="service__text">
+            <h3 class="service__name">Ciberseguridad</h3>
+            <p>Auditamos, cerramos puertas y respondemos a incidentes. Trabajamos alineados con el ENS, ISO/IEC 27001, el RGPD y NIS2.</p>
+            <ul class="service__list"><li>Auditoría y pruebas de intrusión</li><li>Revisión de código según OWASP</li><li>Bastionado y gestión de identidades</li><li>Copias cifradas y recuperación</li></ul>
+          </div>
+          <div class="ui ui--vuln" data-ui>
+            <div class="ui__head"><span class="ui__title">Auditoría · resultado</span><span class="ui__meta">OWASP ASVS nivel 2</span></div>
+            <ul class="vuln">
+              <li><span class="vuln__sev vuln__sev--crit">Críticas</span><b>0</b><span class="vuln__bar"><i class="w-0"></i></span></li>
+              <li><span class="vuln__sev vuln__sev--high">Altas</span><b>2</b><span class="vuln__bar"><i class="w-22"></i></span></li>
+              <li><span class="vuln__sev vuln__sev--med">Medias</span><b>5</b><span class="vuln__bar"><i class="w-55"></i></span></li>
+              <li><span class="vuln__sev">Bajas</span><b>9</b><span class="vuln__bar"><i class="w-100"></i></span></li>
+            </ul>
+            <p class="ui__foot">Plan de corrección entregado con cada hallazgo.</p>
+          </div>
+        </article>
+
+        <article class="service" data-reveal>
+          <div class="service__text">
+            <h3 class="service__name">IA aplicada</h3>
+            <p>Asistentes que responden con tus documentos, clasificación automática y extracción de datos, con tus datos bajo control.</p>
+            <ul class="service__list"><li>Asistentes sobre tu documentación</li><li>Clasificación de tickets y correos</li><li>Extracción de datos de facturas</li><li>Modelos privados en tu nube</li></ul>
+          </div>
+          <div class="ui ui--chat" data-ui>
+            <div class="ui__head"><span class="ui__title">Asistente interno</span><span class="ui__meta">Modelo privado</span></div>
+            <p class="chat__q">¿Cuál es el plazo de devolución para clientes empresa?</p>
+            <p class="chat__a">30 días naturales desde la entrega, siempre que el producto no se haya instalado.</p>
+            <p class="chat__src">Fuente: <span>Condiciones B2B, artículo 7</span></p>
+          </div>
+        </article>
+
+        <article class="service" data-reveal>
+          <div class="service__text">
+            <h3 class="service__name">Soporte y guardia 24/7</h3>
+            <p>Vigilamos tus sistemas día y noche, respondemos en 15 minutos a cualquier caída y te contamos qué ha pasado y por qué.</p>
+            <ul class="service__list"><li>Monitorización continua</li><li>Respuesta a incidentes a cualquier hora</li><li>Parches y mantenimiento</li><li>Informe mensual</li></ul>
+          </div>
+          <div class="ui ui--incident" data-ui>
+            <div class="ui__head"><span class="ui__title">Incidente · sábado</span><span class="tag tag--ok">Resuelto</span></div>
+            <ol class="timeline">
+              <li><time>03:14</time><span>Alerta: el portal deja de responder</span></li>
+              <li><time>03:17</time><span>Ingeniero de guardia asignado</span></li>
+              <li><time>03:29</time><span>Servicio restablecido</span></li>
+              <li><time>09:00</time><span>Parte con causa y medidas enviado</span></li>
+            </ol>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BANDA: la oficina de noche, el concepto de la guardia -->
+    <section class="night" aria-labelledby="night-title">
+      <figure class="night__pic" data-pano>
+        <img src="/img/oficinas-noche.webp" width="2400" height="1200" alt="Fachada de un edificio de oficinas de noche, con algunas plantas todavía iluminadas" loading="lazy">
+      </figure>
+      <div class="night__copy frame">
+        <h2 id="night-title" class="display lines">
+          <span class="line"><span data-line>Cuando apagas la luz,</span></span>
+          <span class="line"><span data-line>seguimos aquí</span></span>
+        </h2>
+        <p data-reveal>Nox significa «noche» en latín. Nuestro nombre es una promesa: alguien de Noxum vigila tus sistemas mientras tu equipo duerme.</p>
+      </div>
+    </section>
+
+    <!-- GUARDIA: reloj de guardia real y tiempos de respuesta por gravedad (lo vivo de la página) -->
+    <section id="guardia" class="watch frame" aria-labelledby="guardia-title">
+      <div class="ui ui--clock" data-ui>
+        <div class="ui__head"><span class="ui__title">Reloj de guardia</span><span class="ui__live"><i></i> Madrid</span></div>
+        <p class="clock" data-clock-big>00:00</p>
+        <p class="clock__shift" data-shift>Turno de noche · 2 ingenieros de guardia</p>
+        <table class="sla">
+          <caption class="sr-only">Tiempos de respuesta por gravedad</caption>
+          <thead><tr><th scope="col">Gravedad</th><th scope="col">Respuesta</th><th scope="col">Ahora</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Caída total</th><td>15 min</td><td data-now="caida">Guardia</td></tr>
+            <tr><th scope="row">Servicio degradado</th><td>1 hora</td><td data-now="degradado">Guardia</td></tr>
+            <tr><th scope="row">Consulta</th><td>Mismo día laborable</td><td data-now="consulta">Mañana</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="watch__panel">
+        <h2 id="guardia-title" class="head" data-reveal>Guardia 24/7</h2>
+        <div class="watch__tabs" role="tablist" aria-label="¿Qué te pasa?" data-reveal>
+          <button role="tab" id="tab-caida" aria-controls="panel-guardia" aria-selected="true" data-tab="caida">Caída total</button>
+          <button role="tab" id="tab-degradado" aria-controls="panel-guardia" aria-selected="false" tabindex="-1" data-tab="degradado">Va lento</button>
+          <button role="tab" id="tab-consulta" aria-controls="panel-guardia" aria-selected="false" tabindex="-1" data-tab="consulta">Una consulta</button>
+        </div>
+        <div id="panel-guardia" class="watch__body" role="tabpanel" aria-labelledby="tab-caida" data-reveal>
+          <h3 class="watch__title" data-tab-title>Respuesta en 15 minutos</h3>
+          <p class="watch__text" data-tab-text>Tu servicio no responde. A cualquier hora, un ingeniero de guardia entra en tus sistemas, restablece el servicio y te deja un parte de lo ocurrido.</p>
+          <p class="watch__now" data-watch-now>De día te atiende el equipo completo; de noche, la guardia.</p>
+        </div>
+        <div class="watch__actions" data-reveal>
+          <a class="button" href="#contacto">Contratar la guardia</a>
+          <a class="link link--arrow" href="#colaborar">Formas de colaborar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÉTODO: el documento de cada fase se queda fijo mientras pasan las fases -->
+    <section id="metodo" class="method frame" aria-labelledby="metodo-title">
+      <div class="section-head">
+        <h2 id="metodo-title" class="head lines"><span class="line"><span data-line>Cómo trabajamos</span></span></h2>
+        <p class="section-head__text" data-reveal>Tres fases y una regla: tú tienes siempre las llaves. Sabes qué hacemos, cuándo y por qué.</p>
+      </div>
+
+      <div class="steps" data-steps>
+        <figure class="steps__media">
+          <div class="steps__pictures">
+            <div class="ui ui--doc is-on" data-ui data-pic>
+              <div class="ui__head"><span class="ui__title">Informe de auditoría</span><span class="ui__meta">Semana 1</span></div>
+              <ul class="doc">
+                <li><span class="tag tag--crit">Alto</span><span>Contraseñas compartidas en el ERP</span></li>
+                <li><span class="tag tag--warn">Medio</span><span>Servidor de correo sin parches desde marzo</span></li>
+                <li><span class="tag tag--warn">Medio</span><span>Copias sin prueba de restauración</span></li>
+                <li><span class="tag">Bajo</span><span>Documentación de la API desactualizada</span></li>
+              </ul>
+              <p class="ui__foot">Prioridades y coste estimado de cada mejora.</p>
+            </div>
+            <div class="ui ui--doc" data-ui data-pic>
+              <div class="ui__head"><span class="ui__title">Ciclo 4 · demostración</span><span class="ui__meta">2 semanas</span></div>
+              <ul class="doc doc--check">
+                <li class="is-done"><span>Alta de clientes con firma digital</span></li>
+                <li class="is-done"><span>Integración con la pasarela de pago</span></li>
+                <li class="is-done"><span>Pruebas automáticas del flujo de pedido</span></li>
+                <li><span>Panel de informes para dirección</span></li>
+              </ul>
+              <p class="ui__foot">Código y documentación en tu repositorio.</p>
+            </div>
+            <div class="ui ui--doc" data-ui data-pic>
+              <div class="ui__head"><span class="ui__title">Informe mensual</span><span class="ui__meta">Octubre</span></div>
+              <dl class="kpi">
+                <div><dt>Disponibilidad</dt><dd>99,98 %</dd></div>
+                <div><dt>Incidentes</dt><dd>2</dd></div>
+                <div><dt>Parches aplicados</dt><dd>14</dd></div>
+                <div><dt>Copias verificadas</dt><dd>31 de 31</dd></div>
+              </dl>
+              <p class="ui__foot">Datos de ejemplo de un cliente ficticio.</p>
+            </div>
+          </div>
+          <figcaption class="steps__count" aria-hidden="true">Fase 1 de 3</figcaption>
+        </figure>
+
+        <ol class="steps__list">
+          <li class="steps__item is-active">
+            <h3 class="steps__title">Escuchamos y auditamos</h3>
+            <p class="steps__when">La primera semana</p>
+            <p class="steps__text">Hablamos con tu equipo, revisamos el código y la infraestructura y medimos los riesgos reales antes de proponer nada.</p>
+            <ul class="steps__deliver"><li>Entrevistas con las personas clave</li><li>Auditoría de código, servidores y accesos</li><li>Informe de riesgos y prioridades para dirección</li></ul>
+          </li>
+          <li class="steps__item">
+            <h3 class="steps__title">Construimos contigo</h3>
+            <p class="steps__when">Durante el proyecto</p>
+            <p class="steps__text">Trabajamos en ciclos de dos semanas y te enseñamos el avance al final de cada uno, funcionando, no en diapositivas.</p>
+            <ul class="steps__deliver"><li>Demostración al cierre de cada ciclo</li><li>Código, accesos y documentación en tus cuentas</li><li>Pruebas automáticas y revisión de seguridad en cada entrega</li></ul>
+          </li>
+          <li class="steps__item">
+            <h3 class="steps__title">Nos quedamos de guardia</h3>
+            <p class="steps__when">Desde la entrega</p>
+            <p class="steps__text">El proyecto no termina el día que se publica. Vigilamos tus sistemas, los mantenemos al día y te contamos lo que ha pasado.</p>
+            <ul class="steps__deliver"><li>Vigilancia de tus sistemas día y noche</li><li>Parches y copias verificadas cada mes</li><li>Informe mensual de lo ocurrido</li></ul>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- MARCOS: normas con las que trabajamos alineados -->
+    <section class="norms frame" aria-labelledby="norms-title">
+      <h2 id="norms-title" class="norms__title" data-reveal>Trabajamos alineados con</h2>
+      <ul class="norms__list" data-reveal>
+        <li><b>ENS</b><span>Esquema Nacional de Seguridad</span></li>
+        <li><b>ISO/IEC 27001</b><span>Gestión de la seguridad de la información</span></li>
+        <li><b>RGPD</b><span>Protección de datos personales</span></li>
+        <li><b>NIS2</b><span>Ciberseguridad de servicios esenciales</span></li>
+        <li><b>OWASP</b><span>Desarrollo seguro de aplicaciones</span></li>
+      </ul>
+    </section>
+
+    <!-- COLABORAR: formas de trabajo, sin precios -->
+    <section id="colaborar" class="collab frame" aria-labelledby="colaborar-title">
+      <div class="section-head">
+        <h2 id="colaborar-title" class="head lines"><span class="line"><span data-line>Cada propuesta, a medida</span></span></h2>
+        <p class="section-head__text" data-reveal>Sin tarifas genéricas. Hablamos primero y te enviamos una propuesta cerrada por escrito.</p>
+      </div>
+      <div class="collab__models">
+        <article class="collab__model" data-reveal>
+          <h3 class="collab__name">Proyecto a medida</h3>
+          <p class="collab__text">Un objetivo, un plazo y un alcance cerrados. Para una aplicación nueva, una migración o una auditoría de seguridad.</p>
+          <ul class="collab__list"><li>Análisis y propuesta por escrito</li><li>Diseño, desarrollo y pruebas</li><li>Puesta en marcha acompañada</li><li>Tres meses de garantía</li></ul>
+        </article>
+        <article class="collab__model" data-reveal>
+          <h3 class="collab__name">Equipo dedicado</h3>
+          <p class="collab__text">Ingenieros de Noxum integrados en tu día a día, con la capacidad que necesites en cada momento del año.</p>
+          <ul class="collab__list"><li>Una persona responsable de tu cuenta</li><li>Desarrollo, calidad y seguridad</li><li>Ciclos de dos semanas con demostración</li><li>Capacidad que se ajusta cada mes</li></ul>
+        </article>
+        <article class="collab__model" data-reveal>
+          <h3 class="collab__name">Guardia 24/7</h3>
+          <p class="collab__text">Vigilancia y respuesta continua para los sistemas de los que depende tu negocio, de día y de noche.</p>
+          <ul class="collab__list"><li>Monitorización todos los días del año</li><li>Respuesta en 15 minutos a caídas</li><li>Parches y copias verificadas</li><li>Informe mensual de lo ocurrido</li></ul>
+        </article>
+      </div>
+      <div class="collab__foot" data-reveal>
+        <p>Primero hablamos: en una reunión de 45 minutos, sin compromiso, entendemos tu caso.</p>
+        <a class="button" href="#contacto">Agendar una conversación</a>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS -->
+    <section id="preguntas" class="faq frame" aria-labelledby="faq-title">
+      <div class="faq__side">
+        <h2 id="faq-title" class="head" data-reveal>Preguntas frecuentes</h2>
+        <p class="faq__intro" data-reveal>¿No encuentras la tuya? Escríbenos y te respondemos en un día laborable.</p>
+        <a class="button button--ghost" href="#contacto" data-reveal>Hacer una pregunta</a>
+      </div>
+      <div class="faq__list">
+        <details class="faq__item" open data-reveal><summary><span>¿Trabajáis con empresas pequeñas?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Sí. Trabajamos con equipos de 10 a 500 personas cuyo negocio depende de su software. Para cuidar a cada uno, aceptamos como máximo doce clientes de guardia a la vez.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿De quién es el código que escribís?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Tuyo, desde el primer día. Vive en tus repositorios y en tus cuentas de nube. Si un día decides seguir sin nosotros, te llevas todo y no dependes de nadie.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿Qué hacéis con mis datos cuando usáis IA?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Nada sin tu permiso por escrito. Preferimos modelos desplegados en tu nube o contratos que prohíben entrenar con tus datos, y cada sistema lleva una persona que revisa lo importante.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿Y si algo falla un domingo a las cuatro?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Te responde la guardia en 15 minutos. Contenemos el problema, restablecemos el servicio y el lunes tienes en tu correo el parte con la causa y lo que hemos cambiado para que no se repita.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿Podéis heredar un proyecto hecho por otros?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Sí, es lo más habitual. Empezamos con una auditoría de una semana y te decimos con franqueza qué conviene conservar y qué rehacer, y por qué.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿Cómo se fija el presupuesto?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Después de una conversación contigo. Cada empresa tiene sistemas, riesgos y prioridades distintos, así que preparamos una propuesta cerrada y por escrito, sin tarifas genéricas.</p></div></details>
+        <details class="faq__item" data-reveal><summary><span>¿Firmáis acuerdos de confidencialidad?</span><span class="faq__plus" aria-hidden="true"></span></summary><div class="faq__answer"><p>Siempre, antes de ver una sola línea de tu código. También firmamos el contrato de encargado del tratamiento que exige el RGPD.</p></div></details>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="contact frame" aria-labelledby="contacto-title">
+      <div class="contact__side">
+        <h2 id="contacto-title" class="head" data-reveal>Cuéntanos qué necesitas</h2>
+        <p class="contact__note" data-reveal>Te responde un ingeniero, no un comercial, en un día laborable. Tu consulta se clasifica con IA y se guarda cifrada; la IA solo lee el texto, nunca tu nombre ni tu email. Si eres cliente de guardia y tienes una urgencia, te atendemos a cualquier hora.</p>
+        <dl class="contact__data" data-reveal>
+          <div><dt>Correo</dt><dd><a class="link" href="mailto:hola@noxum.es">hola@noxum.es</a></dd></div>
+          <div><dt>Oficina</dt><dd>Calle de Fuencarral 23, 28004 Madrid</dd></div>
+          <div><dt>Horario</dt><dd>Lunes a viernes, de 9:00 a 18:00</dd></div>
+          <div><dt>Guardia</dt><dd>Todos los días, las 24 horas</dd></div>
+        </dl>
+      </div>
+
+      <div id="contact-form" class="contact__form" data-reveal>
+        <noscript><p>El formulario necesita JavaScript. Escríbenos a <a href="mailto:hola@noxum.es">hola@noxum.es</a>.</p></noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="frame footer__cols">
+      <div>
+        <a class="brand" href="#inicio"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.6"/></svg><span>Noxum</span></a>
+        <p class="footer__claim">Consultora tecnológica en Madrid. Desarrollo a medida, ciberseguridad, IA aplicada y guardia 24/7.</p>
+      </div>
+      <nav aria-label="Pie">
+        <p class="footer__first">Empresa</p>
+        <p><a class="link" href="#servicios">Servicios</a></p>
+        <p><a class="link" href="#metodo">Método</a></p>
+        <p><a class="link" href="#colaborar">Colaborar</a></p>
+        <p><a class="link" href="#preguntas">Preguntas</a></p>
+      </nav>
+      <div>
+        <p class="footer__first">Contacto</p>
+        <p><a class="link" href="mailto:hola@noxum.es">hola@noxum.es</a></p>
+        <p>Calle de Fuencarral 23, 28004 Madrid</p>
+        <p>Guardia: todos los días, 24 horas</p>
+      </div>
+    </div>
+    <div class="frame footer__legal">
+      <p>© 2026 Noxum. Empresa ficticia, proyecto de demostración. Los paneles de la web muestran datos de ejemplo; el formulario es real.</p>
+      <p>Foto de oficinas de noche: Vladimir Kudinov, licencia Unsplash.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/landing/main.ts"></script>
+</body>
 </html>
