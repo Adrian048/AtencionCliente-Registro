@@ -1,0 +1,40 @@
+/* scene-3d: styles. The colour of the chosen item is --s3d-color (registered, so it eases when a
+   page uses it for backgrounds and glows). */
+
+@property --s3d-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e11d48;
+}
+:root { transition: --s3d-color 900ms cubic-bezier(0.23, 1, 0.32, 1); }
+@media (prefers-reduced-motion: reduce) { :root { transition: none; } }
+
+[data-s3d], [data-s3d-ring] { position: relative; isolation: isolate; }
+.s3d-canvas {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; display: block;
+  cursor: grab; outline: none;
+}
+.is-dragging .s3d-canvas { cursor: grabbing; }
+[data-s3d-ring]:focus-visible { outline: 2px solid var(--s3d-color); outline-offset: -4px; }
+
+/* fallback content (an <img> or text inside the host) is hidden once the 3D is up */
+[data-s3d].is-3d > :not(.s3d-canvas):not(.s3d-keep) { visibility: hidden; }
+
+/* the item list: a list of choices without 3D, a row of small labelled dots with it */
+.s3d-items { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.s3d-item {
+  font: inherit; color: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.85rem; border-radius: 999px;
+  background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.12);
+  transition: background-color 200ms ease, border-color 200ms ease, transform 160ms ease-out;
+}
+.s3d-item::before {
+  content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%;
+  background: var(--swatch, currentColor);
+}
+.s3d-item[aria-pressed="true"] { background: rgb(255 255 255 / 0.14); border-color: rgb(255 255 255 / 0.4); }
+.s3d-item:active { transform: scale(0.97); }
+.s3d-item:focus-visible { outline: 2px solid var(--s3d-color); outline-offset: 2px; }
+[data-s3d-ring].is-3d .s3d-items { position: relative; z-index: 1; }

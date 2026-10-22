@@ -1,0 +1,159 @@
+/* cinematic-web kit: base styles for the effects. Reads the page's tokens when they exist
+   (--ground, --ink, --muted, --accent); set --cine-* to override. No external resources. */
+
+:root {
+  --cine-bg: var(--ground, #07080b);
+  --cine-ink: var(--ink, #eef1f6);
+  --cine-muted: var(--muted, #8b93a3);
+  --cine-accent: var(--accent, #4d8dff);
+  --cine-c1: var(--cine-accent);
+  --cine-c2: color-mix(in oklab, var(--cine-accent) 45%, white);
+  --cine-c3: color-mix(in oklab, var(--cine-accent) 55%, #22d3ee);
+  --cine-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --cine-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --cine-enter: 900ms;
+}
+
+/* page colours driven by [data-cine-theme] sections (theme.js); registered so they ease */
+@property --theme-ground { syntax: '<color>'; inherits: true; initial-value: #07080b; }
+@property --theme-ink { syntax: '<color>'; inherits: true; initial-value: #eef1f6; }
+@property --theme-accent { syntax: '<color>'; inherits: true; initial-value: #4d8dff; }
+:root { transition: --theme-ground 900ms var(--cine-ease), --theme-ink 900ms var(--cine-ease), --theme-accent 900ms var(--cine-ease); }
+
+.cine-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ── WebGL hosts ─────────────────────────────────────────────────────────── */
+
+.cine-shader, .cine-points { position: relative; isolation: isolate; }
+.cine-gl {
+  position: absolute; inset: 0; z-index: -1;
+  width: 100%; height: 100%; display: block; pointer-events: none;
+  opacity: 0; transition: opacity 1.2s var(--cine-ease);
+}
+.is-gl > .cine-gl { opacity: 1; }
+/* Without WebGL (or before it starts) the host still has light in it. */
+.cine-shader:not(.is-gl) {
+  background:
+    radial-gradient(60% 50% at 70% 40%, color-mix(in oklab, var(--cine-c1) 35%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 25% 70%, color-mix(in oklab, var(--cine-c3) 25%, transparent), transparent 70%),
+    var(--cine-bg);
+}
+.cine-shader.is-gl { background: var(--cine-bg); }
+/* clouds: transparent, drawn over the host's content (a photo below shows through as they clear) */
+.cine-gl--over { z-index: 2; }
+.cine-shader[data-cine-shader="clouds"], .cine-shader[data-cine-shader="clouds"].is-gl { background: none; }
+.cine-points:not(.is-gl) {
+  background: radial-gradient(35% 45% at 50% 50%, color-mix(in oklab, var(--cine-c1) 22%, transparent), transparent 70%);
+}
+
+/* ── Footage driven by scroll (sequence.js) ──────────────────────────────── */
+
+.cine-sequence { position: relative; overflow: clip; }
+.cine-sequence__media { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+/* the <img> inside is the poster: what shows without script, before loading and under reduced motion */
+.cine-sequence > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cine-sequence.is-ready > img { visibility: hidden; }
+/* outside a running scene (no script, reduced motion) it is a picture with a height of its own */
+.cine-scene:not(.is-live) .cine-sequence { position: relative; inset: auto; min-height: 70svh; }
+
+/* ── Entrances ───────────────────────────────────────────────────────────── */
+
+[data-cine-reveal] {
+  transition:
+    opacity var(--cine-enter) var(--cine-ease),
+    transform var(--cine-enter) var(--cine-ease),
+    clip-path calc(var(--cine-enter) * 1.25) var(--cine-ease),
+    filter var(--cine-enter) var(--cine-ease);
+  transition-delay: calc(min(var(--i, 0), 10) * 75ms);
+}
+.js [data-cine-reveal]:not(.is-in) { opacity: 0; transform: translateY(28px); }
+.js [data-cine-reveal="mask"]:not(.is-in) { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); }
+.js [data-cine-reveal="scale"]:not(.is-in) { transform: scale(0.94); }
+.js [data-cine-reveal="blur"]:not(.is-in) { filter: blur(14px); transform: translateY(14px); }
+.js [data-cine-reveal="clip"]:not(.is-in) {
+  opacity: 1; transform: scale(1.08); clip-path: inset(14% 18% 14% 18% round 28px);
+}
+[data-cine-reveal="mask"], [data-cine-reveal="clip"] { clip-path: inset(0 0 0 0 round 0); }
+
+/* ── Split text ──────────────────────────────────────────────────────────── */
+
+.cine-wm { display: inline-block; vertical-align: top; }
+.cine-w { display: inline-block; }
+[data-cine-text="rise"] .cine-wm, [data-cine-text="chars"] .cine-wm {
+  /* room above for accents on capitals (Á É Ó) and below for descenders, so the mask clips neither */
+  overflow: clip; padding-block: 0.22em 0.12em; margin-block: -0.22em -0.12em;
+}
+[data-cine-text="rise"] .cine-w, [data-cine-text="chars"] .cine-w {
+  transition: transform 1s var(--cine-ease), opacity 1s var(--cine-ease);
+  transition-delay: calc(min(var(--i), 28) * 45ms);
+}
+[data-cine-text="chars"] .cine-w { transition-delay: calc(min(var(--i), 60) * 18ms); }
+.js [data-cine-text="rise"]:not(.is-in) .cine-w,
+.js [data-cine-text="chars"]:not(.is-in) .cine-w { transform: translateY(105%); opacity: 0; }
+
+/* Words light up as the paragraph crosses the screen: fully lit by the time it is a little above centre. */
+[data-cine-text="scrub"] { --r: clamp(0, (var(--pv, 1) - 0.12) / 0.42, 1); }
+[data-cine-text="scrub"] .cine-w {
+  opacity: calc(0.16 + 0.84 * clamp(0, var(--r) * (var(--n) + 2) - var(--i), 1));
+}
+
+/* ── Under the hand ──────────────────────────────────────────────────────── */
+
+[data-cine-tilt] {
+  position: relative;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+}
+.cine-glare::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.13), transparent 45%);
+  opacity: var(--go, 0);
+}
+[data-cine-magnetic] { translate: var(--mx, 0px) var(--my, 0px); }
+
+.cine-spot { position: relative; isolation: isolate; }
+.cine-spot::before, .cine-spot::after {
+  content: ""; position: absolute; pointer-events: none; border-radius: inherit;
+  opacity: 0; transition: opacity 400ms var(--cine-ease);
+}
+/* the lit border */
+.cine-spot::before {
+  inset: 0; padding: 1px; z-index: 1;
+  background: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in oklab, var(--cine-accent) 85%, white), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* the light on the surface */
+.cine-spot::after {
+  inset: 0; z-index: -1;
+  background: radial-gradient(420px circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in oklab, var(--cine-accent) 12%, transparent), transparent 60%);
+}
+.is-lit .cine-spot::before, .is-lit .cine-spot::after { opacity: 1; }
+
+/* ── Marquee ─────────────────────────────────────────────────────────────── */
+
+[data-cine-marquee] {
+  display: flex; overflow: clip;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.cine-track { display: flex; flex: none; align-items: center; gap: var(--cine-gap, 3.5rem); padding-inline-end: var(--cine-gap, 3.5rem); }
+[data-cine-marquee].is-running .cine-track { animation: cine-marquee var(--cine-speed, 40s) linear infinite; }
+[data-cine-marquee].is-running:hover .cine-track { animation-play-state: paused; }
+@keyframes cine-marquee { to { transform: translateX(-100%); } }
+
+/* ── Reduced motion: everything is in place, nothing moves ──────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-cine-reveal], .cine-w, .cine-gl { transition: none !important; }
+  .js [data-cine-reveal]:not(.is-in),
+  .js [data-cine-text]:not(.is-in) .cine-w { opacity: 1; transform: none; clip-path: none; filter: none; }
+  [data-cine-tilt] { transform: none; }
+  :root { transition: none; }
+}

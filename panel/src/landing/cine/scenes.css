@@ -1,0 +1,189 @@
+/* cinematic-web kit: pinned scroll scenes, driven by --p (0 → 1) from scene.js.
+
+   Every scene is written twice:
+   - the base rules are the FINISHED COMPOSITION: what a visitor sees without script, under reduced
+     motion (.is-rest) and in the first frame of a failed load. It must read well on its own;
+   - the rules under .is-live are the scene: the section grows to (hold + 1) screens, the stage sticks,
+     and the parts move with --p.
+
+   Inside a scene, a segment of the scroll is taken with
+     --t: clamp(0, (var(--p) - START) / LENGTH, 1);
+   and eased with smoothstep
+     --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+   Only transform, opacity and clip-path move. */
+
+.cine-scene { position: relative; }
+.cine-scene.is-live { height: calc((var(--hold, 2) + 1) * 100svh); }
+.cine-scene.is-live > .cine-stage {
+  position: sticky; top: 0; height: 100svh; overflow: clip;
+}
+
+/* ═══ fly: the camera flies through a field of cards ════════════════════════
+   <section class="cine-scene cine-fly" data-cine-scene="3" aria-label="…">
+     <div class="cine-stage">
+       <h2 class="cine-fly__title">…</h2>
+       <div class="cine-fly__field" data-cine-index>
+         <article class="cine-fly__item">…</article>   ×5–9 (pictures or interface panels)
+       </div>
+     </div>
+   </section>
+   Rest: title, then the items in a grid. */
+
+.cine-fly .cine-stage { padding: clamp(4rem, 10vw, 8rem) 1.25rem; }
+.cine-fly__title { text-align: center; margin-inline: auto; max-width: 18ch; }
+.cine-fly__field {
+  display: grid; gap: 1rem; margin-top: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.cine-fly.is-live .cine-stage {
+  padding: 0; display: grid; place-items: center;
+  background: radial-gradient(55% 55% at 50% 50%, color-mix(in oklab, var(--cine-accent) 12%, transparent), transparent 75%);
+}
+.cine-fly.is-live .cine-fly__title {
+  position: relative; z-index: 0; padding-inline: 1.25rem;
+  --t: clamp(0, var(--p) / 0.35, 1);
+  opacity: calc(1 - var(--t) * 0.85);
+  transform: scale(calc(1 - var(--t) * 0.08));
+}
+.cine-fly.is-live .cine-fly__field {
+  position: absolute; inset: 0; margin: 0; display: block;
+  perspective: 800px; perspective-origin: 50% 50%;
+  pointer-events: none;
+}
+.cine-fly.is-live .cine-fly__item {
+  --zu: calc(var(--p) * (var(--n) + 1.2) - var(--i) - 0.6);
+  position: absolute; left: 50%; top: 50%;
+  width: min(30vw, 400px);
+  transform: translate(-50%, -50%) translate3d(var(--x, 0), var(--y, 0), calc(var(--zu) * 650px));
+  opacity: calc(clamp(0, (0.85 - var(--zu)) / 0.3, 1) * clamp(0, (var(--zu) + 4.2) / 1.6, 1));
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 1) { --x: -32vw; --y: -18vh; }
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 2) { --x: 30vw; --y: 14vh; }
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 3) { --x: -26vw; --y: 22vh; }
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 4) { --x: 28vw; --y: -20vh; }
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 5) { --x: -6vw; --y: -30vh; }
+.cine-fly.is-live .cine-fly__item:nth-child(6n + 6) { --x: 8vw; --y: 28vh; }
+@media (max-width: 700px) {
+  .cine-fly.is-live .cine-fly__item { width: 62vw; }
+  .cine-fly.is-live .cine-fly__item:nth-child(odd) { --x: -16vw; }
+  .cine-fly.is-live .cine-fly__item:nth-child(even) { --x: 16vw; }
+}
+/* the last card lands in the centre and stays, so the scene ends on something */
+.cine-fly.is-live .cine-fly__item:last-child {
+  --x: 0px; --y: 0px;
+  --zu: min(calc(var(--p) * (var(--n) + 1.2) - var(--i) - 0.6), -0.05);
+  width: min(56vw, 640px);
+}
+@media (max-width: 700px) { .cine-fly.is-live .cine-fly__item:last-child { width: 84vw; } }
+
+/* ═══ grow: a window grows to the whole screen ══════════════════════════════
+   <section class="cine-scene cine-grow" data-cine-scene="2" aria-label="…">
+     <div class="cine-stage">
+       <div class="cine-grow__frame"><div class="cine-grow__media">…picture, video, canvas, UI…</div></div>
+       <div class="cine-grow__caption">…statement…</div>
+     </div>
+   </section>
+   Rest: the picture full width with the caption on it. */
+
+.cine-grow .cine-stage { position: relative; min-height: 100svh; display: grid; }
+.cine-grow__frame { grid-area: 1 / 1; overflow: clip; position: relative; }
+.cine-grow__media { position: absolute; inset: 0; }
+.cine-grow__media > img, .cine-grow__media > video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cine-grow__caption {
+  grid-area: 1 / 1; align-self: end; position: relative; z-index: 1;
+  padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+.cine-grow.is-live .cine-grow__frame {
+  --t: clamp(0, var(--p) / 0.7, 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+  clip-path: inset(calc((1 - var(--e)) * 24%) calc((1 - var(--e)) * 30%) round calc((1 - var(--e)) * 28px));
+}
+.cine-grow.is-live .cine-grow__media { transform: scale(calc(1.3 - var(--e, 0) * 0.3)); }
+.cine-grow.is-live .cine-grow__caption {
+  --t: clamp(0, (var(--p) - 0.68) / 0.22, 1);
+  opacity: var(--t);
+  transform: translateY(calc((1 - var(--t)) * 40px));
+}
+
+/* ═══ stack: cards slide up and stack on each other ═════════════════════════
+   <section class="cine-scene cine-stack" data-cine-scene="3" aria-label="…">
+     <div class="cine-stage">
+       <div class="cine-stack__deck" data-cine-index>
+         <article class="cine-stack__card">…</article>   ×3–5
+       </div>
+     </div>
+   </section>
+   Rest: the cards one under another. */
+
+.cine-stack .cine-stage { padding: clamp(3rem, 8vw, 6rem) 1.25rem; }
+.cine-stack__deck { display: grid; gap: 1.25rem; max-width: 1100px; margin-inline: auto; }
+
+.cine-stack.is-live .cine-stage { padding: 0 1.25rem; display: grid; place-items: center; }
+.cine-stack.is-live .cine-stack__deck { display: grid; width: 100%; }
+.cine-stack.is-live .cine-stack__card {
+  grid-area: 1 / 1; position: relative;
+  --s: clamp(0, var(--p) * (var(--n) - 1) * 1.15 - var(--i) + 1, 1);
+  --d: clamp(0, var(--p) * (var(--n) - 1) * 1.15 - var(--i), 4);
+  transform:
+    translateY(calc((1 - var(--s)) * 105svh - var(--d) * 22px))
+    scale(calc(1 - var(--d) * 0.045));
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+.cine-stack.is-live .cine-stack__card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: #000; opacity: calc(min(var(--d), 3) * 0.18);
+}
+.cine-stack.is-live .cine-stack__card:first-child { --s: 1; }
+
+/* ═══ track: a horizontal rail moved by vertical scroll ═════════════════════
+   <section class="cine-scene cine-track-scene" data-cine-scene="3" aria-label="…">
+     <div class="cine-stage">
+       <h2>…</h2>                                         (optional heading above the rail)
+       <div class="cine-rail"> <article>…</article> ×4–8 </div>
+     </div>
+   </section>
+   Rest: the rail scrolls sideways by touch/trackpad (scroll-snap). */
+
+.cine-rail {
+  display: flex; gap: 1.25rem; padding: 2rem 1.25rem;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+}
+.cine-rail > * { flex: none; scroll-snap-align: start; width: min(78vw, 460px); }
+
+.cine-track-scene.is-live .cine-stage { display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+.cine-track-scene.is-live .cine-rail {
+  overflow: visible; width: max-content; align-self: flex-start; padding-inline: max(1.25rem, 6vw);
+  --t: clamp(0, (var(--p) - 0.05) / 0.9, 1);
+  transform: translateX(calc(var(--t) * (100vw - 100%)));
+  will-change: transform;
+}
+
+/* ═══ say: held statements that take turns (over a points cloud or a picture) ═
+   <section class="cine-scene cine-say" data-cine-scene="3" aria-label="…">
+     <div class="cine-stage">
+       <div class="cine-points" data-cine-points="sphere>wave>galaxy"></div>   (or any backdrop)
+       <div class="cine-say__lines" data-cine-index>
+         <p class="cine-say__line">…4–12 words…</p>   ×2–4
+       </div>
+     </div>
+   </section>
+   Rest: the statements in a column over the backdrop. */
+
+.cine-say .cine-stage { position: relative; min-height: 100svh; display: grid; align-items: center; }
+.cine-say .cine-points { position: absolute; inset: 0; }
+.cine-say__lines { position: relative; display: grid; gap: 2rem; padding: 4rem 1.25rem; }
+
+.cine-say.is-live .cine-say__lines { display: grid; padding: 0 1.25rem; }
+.cine-say.is-live .cine-say__line {
+  grid-area: 1 / 1;
+  --l: calc(var(--p) * var(--n) - var(--i));
+  opacity: clamp(0, min(var(--l) * 3.5, (1 - var(--l)) * 3.5), 1);
+  transform: translateY(calc((0.5 - clamp(0, var(--l), 1)) * 48px));
+}
+.cine-say.is-live .cine-say__line:first-child { opacity: clamp(0, (1 - var(--l)) * 3.5, 1); }
+.cine-say.is-live .cine-say__line:last-child { opacity: clamp(0, var(--l) * 3.5, 1); }
