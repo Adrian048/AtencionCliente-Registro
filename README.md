@@ -1,7 +1,7 @@
-# AtencionCliente-Registro
+# NOX
 
-[![CI](https://github.com/Adrian048/AtencionCliente-Registro/actions/workflows/ci.yml/badge.svg)](https://github.com/Adrian048/AtencionCliente-Registro/actions/workflows/ci.yml)
-[![Security](https://github.com/Adrian048/AtencionCliente-Registro/actions/workflows/security.yml/badge.svg)](https://github.com/Adrian048/AtencionCliente-Registro/actions/workflows/security.yml)
+[![CI](https://github.com/Adrian048/NOX/actions/workflows/ci.yml/badge.svg)](https://github.com/Adrian048/NOX/actions/workflows/ci.yml)
+[![Security](https://github.com/Adrian048/NOX/actions/workflows/security.yml/badge.svg)](https://github.com/Adrian048/NOX/actions/workflows/security.yml)
 ![n8n](https://img.shields.io/badge/n8n-workflow-EA4B71)
 ![Claude](https://img.shields.io/badge/IA-Claude-D97757)
 ![Vue 3](https://img.shields.io/badge/Vue-3-42b883)
@@ -62,7 +62,7 @@ flowchart LR
 | `n8n/workflows/` | n8n + Claude (Anthropic) | Recibe, valida y clasifica. No tiene acceso a la base de datos |
 | `api/` | Python 3.12, FastAPI, psycopg 3, `cryptography` | Único componente que toca la base de datos: cifra al guardar y descifra para el panel |
 | `db/init/` | PostgreSQL 16 | Esquema con columnas cifradas (`BYTEA`), `CHECK` y un rol de mínimo privilegio |
-| `panel/` | Vue 3, TypeScript, Vite | Dos páginas: la **landing pública** de Noxum (`/`, HTML y CSS con el formulario de contacto como única pieza Vue, fuente servida desde el propio sitio para cumplir la CSP) y el **panel de gestión** (`/panel/`) con login, filtros, búsqueda y detalle del ticket |
+| `panel/` | Vue 3, TypeScript, Vite, three.js | Dos páginas: la **landing pública** de Noxum (`/`, HTML y CSS con el formulario de contacto como única pieza Vue; capa cinemática propia con shaders WebGL, escenas de scroll y una escena 3D con three.js que se carga aparte; todo servido desde el propio sitio para cumplir la CSP) y el **panel de gestión** (`/panel/`) con login, filtros, búsqueda y detalle del ticket |
 | `panel/nginx.conf` | nginx | Único punto de entrada: sirve ambas páginas, añade la clave del webhook a los envíos del formulario y aplica rate limit |
 | `secrets/` | Docker secrets | Un fichero por secreto, montado en `/run/secrets/`. **No hay `.env`** |
 
@@ -109,7 +109,7 @@ docker compose up -d --build
 
 Configuración de n8n (solo la primera vez):
 
-1. Abre http://localhost:5678 y crea la cuenta de propietario.
+1. Abre http://localhost:9001 y crea la cuenta de propietario.
 2. Importa el workflow:
    ```bash
    docker compose exec n8n n8n import:workflow --input=/workflows/triage-soporte.json
@@ -122,12 +122,12 @@ Configuración de n8n (solo la primera vez):
 
 Pruébalo:
 
-- **Landing con formulario:** http://127.0.0.1:8080, rellena el formulario del final.
+- **Landing con formulario:** http://127.0.0.1:9000, rellena el formulario del final.
 - **Consultas de ejemplo** (incluyen un intento de *prompt injection* y un spam):
   ```bash
   python scripts/send_samples.py
   ```
-- **Panel:** http://127.0.0.1:8080/panel/ (usuario `admin` y la contraseña que elegiste).
+- **Panel:** http://127.0.0.1:9000/panel/ (usuario `admin` y la contraseña que elegiste).
 
 ## Desarrollo local
 
@@ -137,7 +137,7 @@ cd api && python -m venv .venv && .venv/Scripts/activate   # Linux/macOS: source
 pip install -e ".[dev]" && pytest
 
 # Panel
-cd panel && npm install && npm run dev    # proxy de /api a localhost:8000
+cd panel && npm install && npm run dev    # localhost:9003, con /api enviado al stack (localhost:9000)
 npm test
 ```
 
