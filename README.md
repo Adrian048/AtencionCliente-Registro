@@ -14,8 +14,54 @@ formulario de contacto de su **landing** envía la consulta, un workflow de **n8
 sentimiento y resumen), la API la **cifra** y la guarda en **PostgreSQL**, y el equipo la
 gestiona desde un **panel propio en Vue 3**, el único sitio donde los datos se ven descifrados.
 
-<!-- TODO: añadir captura del panel y GIF del flujo -->
-<!-- ![Panel](docs/img/panel.png) -->
+![Panel de soporte con los tickets clasificados por la IA](docs/funcionamiento/20-panel-tickets-clasificados.png)
+
+## Cómo funciona
+
+Recorrido completo de una consulta, de la landing al panel. Todas las capturas están en
+[`docs/funcionamiento/`](docs/funcionamiento/), numeradas en orden.
+
+### 1. La landing de Noxum
+
+La consultora ficticia **Noxum** presenta sus servicios. Los paneles de la web (estado de la
+guardia, despliegue, auditoría, asistente de IA) son fragmentos de interfaz con datos de
+ejemplo; el reloj de guardia usa la hora real de Madrid.
+
+| | |
+|---|---|
+| ![Portada](docs/funcionamiento/01-landing-portada.png) | ![Tecnologías y servicios](docs/funcionamiento/02-landing-tecnologias-y-servicios.png) |
+| ![Servicios de IA y guardia](docs/funcionamiento/03-landing-servicios-ia-y-guardia.png) | ![Banda nocturna](docs/funcionamiento/04-landing-banda-nocturna.png) |
+| ![Guardia 24/7](docs/funcionamiento/05-landing-guardia-24-7.png) | ![Pestaña «Va lento»](docs/funcionamiento/06-landing-guardia-pestana-va-lento.png) |
+| ![Método, fase 1](docs/funcionamiento/07-landing-metodo-fase-1.png) | ![Método, fase 2](docs/funcionamiento/08-landing-metodo-fase-2.png) |
+| ![Método, fase 3](docs/funcionamiento/09-landing-metodo-fase-3.png) | ![Normas y formas de colaborar](docs/funcionamiento/10-landing-normas-y-formas-de-colaborar.png) |
+| ![Preguntas frecuentes](docs/funcionamiento/11-landing-preguntas-frecuentes.png) | ![Contacto](docs/funcionamiento/12-landing-contacto.png) |
+
+### 2. El cliente envía su consulta
+
+El formulario valida los datos en el navegador y los envía a `/api/public/contacto`. nginx
+añade la clave del webhook (el navegador nunca la ve) y los pasa a n8n.
+
+| | |
+|---|---|
+| ![Formulario relleno](docs/funcionamiento/13-landing-formulario-relleno.png) | ![Consulta recibida con su referencia](docs/funcionamiento/14-landing-consulta-recibida.png) |
+
+### 3. También en el móvil
+
+| | | | |
+|---|---|---|---|
+| ![Portada en el móvil](docs/funcionamiento/15-movil-portada.png) | ![Panel de guardia en el móvil](docs/funcionamiento/16-movil-panel-de-guardia.png) | ![Reloj de guardia en el móvil](docs/funcionamiento/17-movil-reloj-de-guardia.png) | ![Formulario en el móvil](docs/funcionamiento/18-movil-formulario.png) |
+
+### 4. El equipo la gestiona en el panel
+
+n8n valida la consulta, **Claude** la clasifica (categoría, prioridad, sentimiento y
+resumen), el código comprueba la respuesta de la IA y la API la **cifra** antes de guardarla.
+En el panel, con login, se ve ya clasificada y descifrada. La consulta de las capturas 13 y
+14 aparece como **#14: incidencia urgente por phishing**.
+
+| | |
+|---|---|
+| ![Login del panel](docs/funcionamiento/19-panel-login.png) | ![Tickets clasificados](docs/funcionamiento/20-panel-tickets-clasificados.png) |
+| ![Búsqueda de un ticket](docs/funcionamiento/21-panel-busqueda-ticket.png) | |
 
 ## Qué problema resuelve
 
@@ -151,6 +197,7 @@ Ver [SECURITY.md](SECURITY.md): controles aplicados según el OWASP Top 10 y el 
 
 ## Próximos pasos
 
+- [ ] Vídeo de demostración del flujo completo
 - [ ] Tests E2E con Playwright (login → filtrar → cambiar estado)
 - [ ] Rotación de la clave de cifrado (re-cifrado en segundo plano usando el byte de versión)
 - [ ] Clave maestra en Azure Key Vault en lugar de fichero
