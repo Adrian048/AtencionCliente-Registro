@@ -6,6 +6,7 @@
   <title>Noxum · Consultora tecnológica en Madrid</title>
   <meta name="description" content="Noxum (empresa ficticia): consultora tecnológica en Madrid. Desarrollo a medida, ciberseguridad, IA aplicada y soporte 24/7. Demo de portfolio.">
   <meta name="theme-color" content="#08090b">
+  <script src="/cine/boot.js"></script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090b'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%234d8dff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%234d8dff'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -30,7 +31,8 @@
   <main id="contenido" class="page">
 
     <!-- HERO: qué somos, a la izquierda; el panel de guardia en directo, a la derecha -->
-    <section id="inicio" class="hero frame">
+    <section id="inicio" class="hero-wrap cine-shader" data-cine-shader="ribbons" data-intensity="0.9">
+    <div class="hero frame">
       <div class="hero__copy">
         <h1 class="hero__title lines">
           <span class="line"><span data-line>Tecnología a medida,</span></span>
@@ -38,7 +40,7 @@
         </h1>
         <p class="hero__lead" data-load>Noxum es una consultora tecnológica en Madrid. Desarrollamos software a medida, lo protegemos y lo mantenemos en marcha de día y de noche.</p>
         <div class="hero__actions" data-load>
-          <a class="button" href="#contacto">Hablar con un ingeniero</a>
+          <a class="button" href="#contacto" data-cine-magnetic="0.25">Hablar con un ingeniero</a>
           <a class="link link--arrow" href="#servicios">Ver servicios</a>
         </div>
         <ul class="hero__facts" data-load>
@@ -49,7 +51,7 @@
       </div>
 
       <figure class="hero__panel" data-load>
-        <div class="ui ui--status" data-ui>
+        <div class="ui ui--status cine-glare" data-ui data-cine-tilt="4">
           <div class="ui__head">
             <span class="ui__title">Guardia Noxum</span>
             <span class="ui__live"><i></i> En directo · Madrid <b data-clock>00:00</b></span>
@@ -70,6 +72,7 @@
         </div>
         <figcaption class="hero__caption">Ejemplo del panel que ve cada cliente de guardia.</figcaption>
       </figure>
+    </div>
     </section>
 
     <!-- TECNOLOGÍAS: una sola banda en movimiento -->
@@ -85,15 +88,51 @@
       </div>
     </section>
 
+    <!-- DECLARACIÓN: se ilumina palabra a palabra -->
+    <section class="statement frame" aria-label="Nuestra forma de trabajar">
+      <p class="statement__text" data-cine-text="scrub">Quien construye tu software es quien lo protege y quien responde cuando falla. Sin pasar el problema de un proveedor a otro, y sin dejarlo solo cuando se hace de noche.</p>
+    </section>
+
+    <!-- ESCENA 3D: el escudo se deshace en una red y la red vigila tus servidores -->
+    <section class="cine-scene cine-say promise" data-cine-scene="3" aria-labelledby="promesa-title">
+      <div class="cine-stage">
+        <div class="promise__3d" data-s3d data-spec="#escena-guardia"></div>
+        <div class="cine-say__lines promise__lines frame" data-cine-index>
+          <h2 id="promesa-title" class="cine-say__line">Blindamos tu software.</h2>
+          <p class="cine-say__line">Lo conectamos con todo lo que ya usas.</p>
+          <p class="cine-say__line">Y lo vigilamos mientras duermes.</p>
+        </div>
+      </div>
+    </section>
+    <script type="application/json" id="escena-guardia">{
+      "light": "night", "floor": "none", "drag": true,
+      "camera": { "pos": [0, 0.2, 7.5], "fov": 30 },
+      "objects": [
+        { "recipe": "shield", "name": "escudo", "pos": [1.6, 0, 0], "posPortrait": [0, 0.85, 0], "spin": 0.25, "float": 0.05,
+          "vars": { "accent": "#4d8dff", "finish": "chrome" },
+          "keys": [{ "at": 0, "opacity": 1 }, { "at": 0.16, "opacity": 1 }, { "at": 0.28, "opacity": 0 }] },
+        { "recipe": "server", "name": "rack", "pos": [1.6, 0, 0], "posPortrait": [0, 0.85, 0], "scale": 0.85,
+          "vars": { "led": "#3fb68b", "accent": "#4d8dff" },
+          "keys": [{ "at": 0, "opacity": 0, "rot": [0, -18, 0] }, { "at": 0.78, "opacity": 0 }, { "at": 0.94, "opacity": 1 }, { "at": 1, "rot": [0, -28, 0] }] },
+        { "type": "particles", "name": "red", "pos": [1.6, 0, 0], "posPortrait": [0, 0.85, 0], "spin": 0.08,
+          "targets": ["escudo", "sphere", "rack"], "at": [0.22, 0.5, 0.82], "count": 12000,
+          "colors": ["#4d8dff", "#cfe3ff"], "size": 0.9,
+          "keys": [{ "at": 0.1, "opacity": 0 }, { "at": 0.24, "opacity": 1 }, { "at": 0.84, "opacity": 1 }, { "at": 0.96, "opacity": 0 }] }
+      ],
+      "parallax": 0.3
+    }</script>
+
     <!-- SERVICIOS: cuatro áreas, cada una con un fragmento real de su trabajo -->
-    <section id="servicios" class="services frame" aria-labelledby="servicios-title">
-      <div class="section-head">
+    <section id="servicios" class="services" aria-labelledby="servicios-title">
+      <div class="section-head frame">
         <h2 id="servicios-title" class="head lines"><span class="line"><span data-line>Cuatro áreas, un solo equipo</span></span></h2>
-        <p class="section-head__text" data-reveal>Quien construye tu software es quien lo protege y quien responde cuando falla. Sin pasar el problema de un proveedor a otro.</p>
+        <p class="section-head__text" data-reveal>Desarrollo, seguridad, IA y guardia en la misma mesa. Cada tarjeta enseña un trozo real de cómo trabajamos.</p>
       </div>
 
-      <div class="services__grid">
-        <article class="service" data-reveal>
+      <div class="cine-scene cine-stack services__scene" data-cine-scene="3">
+      <div class="cine-stage">
+      <div class="cine-stack__deck services__grid frame" data-cine-index>
+        <article class="service cine-stack__card">
           <div class="service__text">
             <h3 class="service__name">Desarrollo a medida</h3>
             <p>Aplicaciones web y móviles, APIs e integraciones hechas para tu forma de trabajar, con pruebas automáticas desde el primer día.</p>
@@ -110,7 +149,7 @@
           </div>
         </article>
 
-        <article class="service" data-reveal>
+        <article class="service cine-stack__card">
           <div class="service__text">
             <h3 class="service__name">Ciberseguridad</h3>
             <p>Auditamos, cerramos puertas y respondemos a incidentes. Trabajamos alineados con el ENS, ISO/IEC 27001, el RGPD y NIS2.</p>
@@ -128,7 +167,7 @@
           </div>
         </article>
 
-        <article class="service" data-reveal>
+        <article class="service cine-stack__card">
           <div class="service__text">
             <h3 class="service__name">IA aplicada</h3>
             <p>Asistentes que responden con tus documentos, clasificación automática y extracción de datos, con tus datos bajo control.</p>
@@ -142,7 +181,7 @@
           </div>
         </article>
 
-        <article class="service" data-reveal>
+        <article class="service cine-stack__card">
           <div class="service__text">
             <h3 class="service__name">Soporte y guardia 24/7</h3>
             <p>Vigilamos tus sistemas día y noche, respondemos en 15 minutos a cualquier caída y te contamos qué ha pasado y por qué.</p>
@@ -159,19 +198,22 @@
           </div>
         </article>
       </div>
+      </div>
+      </div>
     </section>
 
     <!-- BANDA: la oficina de noche, el concepto de la guardia -->
-    <section class="night" aria-labelledby="night-title">
-      <figure class="night__pic" data-pano>
-        <img src="/img/oficinas-noche.webp" width="2400" height="1200" alt="Fachada de un edificio de oficinas de noche, con algunas plantas todavía iluminadas" loading="lazy">
-      </figure>
-      <div class="night__copy frame">
-        <h2 id="night-title" class="display lines">
-          <span class="line"><span data-line>Cuando apagas la luz,</span></span>
-          <span class="line"><span data-line>seguimos aquí</span></span>
-        </h2>
-        <p data-reveal>Nox significa «noche» en latín. Nuestro nombre es una promesa: alguien de Noxum vigila tus sistemas mientras tu equipo duerme.</p>
+    <section class="cine-scene cine-grow night" data-cine-scene="2" aria-labelledby="night-title">
+      <div class="cine-stage">
+        <div class="cine-grow__frame">
+          <div class="cine-grow__media night__pic">
+            <img src="/img/oficinas-noche.webp" width="2400" height="1200" alt="Fachada de un edificio de oficinas de noche, con algunas plantas todavía iluminadas" loading="lazy">
+          </div>
+        </div>
+        <div class="cine-grow__caption night__copy">
+          <h2 id="night-title" class="display">Cuando apagas la luz, seguimos aquí</h2>
+          <p>Nox significa «noche» en latín. Nuestro nombre es una promesa: alguien de Noxum vigila tus sistemas mientras tu equipo duerme.</p>
+        </div>
       </div>
     </section>
 
@@ -296,18 +338,18 @@
         <h2 id="colaborar-title" class="head lines"><span class="line"><span data-line>Cada propuesta, a medida</span></span></h2>
         <p class="section-head__text" data-reveal>Sin tarifas genéricas. Hablamos primero y te enviamos una propuesta cerrada por escrito.</p>
       </div>
-      <div class="collab__models">
-        <article class="collab__model" data-reveal>
+      <div class="collab__models" data-cine-spotlight>
+        <article class="collab__model cine-spot" data-reveal data-cine-tilt="3">
           <h3 class="collab__name">Proyecto a medida</h3>
           <p class="collab__text">Un objetivo, un plazo y un alcance cerrados. Para una aplicación nueva, una migración o una auditoría de seguridad.</p>
           <ul class="collab__list"><li>Análisis y propuesta por escrito</li><li>Diseño, desarrollo y pruebas</li><li>Puesta en marcha acompañada</li><li>Tres meses de garantía</li></ul>
         </article>
-        <article class="collab__model" data-reveal>
+        <article class="collab__model cine-spot" data-reveal data-cine-tilt="3">
           <h3 class="collab__name">Equipo dedicado</h3>
           <p class="collab__text">Ingenieros de Noxum integrados en tu día a día, con la capacidad que necesites en cada momento del año.</p>
           <ul class="collab__list"><li>Una persona responsable de tu cuenta</li><li>Desarrollo, calidad y seguridad</li><li>Ciclos de dos semanas con demostración</li><li>Capacidad que se ajusta cada mes</li></ul>
         </article>
-        <article class="collab__model" data-reveal>
+        <article class="collab__model cine-spot" data-reveal data-cine-tilt="3">
           <h3 class="collab__name">Guardia 24/7</h3>
           <p class="collab__text">Vigilancia y respuesta continua para los sistemas de los que depende tu negocio, de día y de noche.</p>
           <ul class="collab__list"><li>Monitorización todos los días del año</li><li>Respuesta en 15 minutos a caídas</li><li>Parches y copias verificadas</li><li>Informe mensual de lo ocurrido</li></ul>
@@ -338,7 +380,8 @@
     </section>
 
     <!-- CONTACTO -->
-    <section id="contacto" class="contact frame" aria-labelledby="contacto-title">
+    <section id="contacto" class="contact-wrap cine-shader" data-cine-shader="grid" data-intensity="0.7" aria-labelledby="contacto-title">
+    <div class="contact frame">
       <div class="contact__side">
         <h2 id="contacto-title" class="head" data-reveal>Cuéntanos qué necesitas</h2>
         <p class="contact__note" data-reveal>Te responde un ingeniero, no un comercial, en un día laborable. Tu consulta se clasifica con IA y se guarda cifrada; la IA solo lee el texto, nunca tu nombre ni tu email. Si eres cliente de guardia y tienes una urgencia, te atendemos a cualquier hora.</p>
@@ -353,6 +396,7 @@
       <div id="contact-form" class="contact__form" data-reveal>
         <noscript><p>El formulario necesita JavaScript. Escríbenos a <a href="mailto:hola@noxum.es">hola@noxum.es</a>.</p></noscript>
       </div>
+    </div>
     </section>
   </main>
 

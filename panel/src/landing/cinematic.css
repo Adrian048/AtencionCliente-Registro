@@ -1,0 +1,90 @@
+/* Cinematic layer of the Noxum landing, on top of noxum.css: same tokens, same type. */
+
+:root {
+  --ground: var(--bg);
+  --cine-bg: #08090b;
+  --cine-accent: #4d8dff;
+  --cine-c1: #4d8dff;
+  --cine-c2: #a9c8ff;
+  --cine-c3: #2b6cf0;
+  --s3d-bg: #08090b;
+}
+
+/* ---------- HERO: the light streaks run behind the copy and the live panel ---------- */
+.hero-wrap { position: relative; isolation: isolate; overflow: clip; }
+.hero-wrap .hero { position: relative; z-index: 1; min-height: min(calc(100svh - 72px), 860px); }
+.hero-wrap::after {
+  /* a calm area under the copy, so the streaks never fight the headline */
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgb(8 9 11 / 0.82) 0%, rgb(8 9 11 / 0.45) 45%, rgb(8 9 11 / 0) 70%);
+}
+.hero__panel .ui--status { background: rgb(15 17 20 / 0.88); }
+
+/* ---------- STATEMENT ---------- */
+.statement { padding-block: clamp(96px, 14vw, 200px); }
+.statement__text {
+  font-size: clamp(1.75rem, 1rem + 2.6vw, 3.25rem); font-weight: 600; line-height: 1.12; letter-spacing: -0.03em;
+  max-width: 24ch; margin-inline: auto; text-wrap: pretty;
+}
+
+/* ---------- PROMISE: 3D scene ---------- */
+.promise .cine-stage { background: radial-gradient(55% 60% at 72% 50%, rgb(77 141 255 / 0.13), transparent 70%), var(--bg); }
+.promise__3d { position: absolute; inset: 0; }
+.promise__lines { width: 100%; max-width: 1440px; margin-inline: auto; }
+.promise .cine-say__line {
+  font-size: var(--step-display); font-weight: 600; line-height: 1; letter-spacing: -0.04em; max-width: 12ch;
+}
+.cine-scene.promise:not(.is-live) .promise__3d { position: relative; height: 70svh; }
+@media (max-width: 760px) {
+  .promise .cine-stage { align-items: end; }
+  .promise__lines { padding-bottom: 9svh; }
+  .promise .cine-say__line { font-size: 2.4rem; }
+}
+
+/* ---------- SERVICES: the four cards stack while the section is held ---------- */
+.services { padding-top: var(--section); padding-bottom: 0; }
+.services .section-head { margin-bottom: 0; }
+.services .cine-stack__deck { grid-template-columns: minmax(0, 1fr); max-width: 1180px; gap: 18px; }
+.services .service { background: #101318; min-height: min(64svh, 560px); align-items: center; border-radius: 22px; }
+.services .service .ui { background: var(--bg); }
+.services .service__name { font-size: var(--step-head); line-height: 1.02; letter-spacing: -0.03em; }
+.cine-stack.is-live.services__scene .cine-stage { padding-inline: 0; }
+.services__scene:not(.is-live) .cine-stage { padding-block: clamp(32px, 4vw, 56px) var(--section); }
+
+/* ---------- NIGHT: the photograph grows from a window to the whole screen ---------- */
+.night { position: static; min-height: 0; display: block; overflow: visible; }
+.night .cine-stage { min-height: 100svh; }
+.night__pic { position: absolute; inset: 0; }
+.night__pic img { width: 100%; height: 100%; object-fit: cover; }
+.night__pic::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,9,11,0.2) 0%, rgba(8,9,11,0.5) 55%, rgba(8,9,11,0.92) 100%);
+}
+.night__copy { position: relative; z-index: 1; padding: 0 var(--margin) clamp(48px, 7vw, 96px); max-width: 1440px; width: 100%; margin-inline: auto; display: grid; gap: 22px; }
+.night__copy .display { max-width: 14ch; }
+.night__copy p { max-width: 52ch; font-size: var(--step-lead); color: #d3d7de; line-height: 1.45; }
+
+/* ---------- WAYS OF WORKING: spotlight cards ---------- */
+.collab__model.cine-spot { background: var(--surface); }
+
+/* ---------- CONTACT: the grid runs to the horizon behind the form ---------- */
+.contact-wrap { position: relative; isolation: isolate; overflow: clip; }
+.contact-wrap .contact { position: relative; z-index: 1; }
+.contact-wrap::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgb(8 9 11 / 0.75) 0%, rgb(8 9 11 / 0.35) 60%, rgb(8 9 11 / 0.6) 100%);
+}
+.contact-wrap .contact__data div { background: rgb(15 17 20 / 0.9); }
+.contact-wrap .contact__form { background: rgb(15 17 20 / 0.94); }
+
+@media (max-width: 1100px) {
+  .hero-wrap::after { background: linear-gradient(180deg, rgb(8 9 11 / 0.7), rgb(8 9 11 / 0.3)); }
+}
+/* On narrow screens a service card is taller than the screen: the stack becomes a plain list. */
+@media (max-width: 900px) {
+  .services__scene.is-live { height: auto; }
+  .services__scene.is-live > .cine-stage { position: relative; height: auto; overflow: visible; padding-block: 32px var(--section); }
+  .services__scene.is-live .cine-stack__card { grid-area: auto; transform: none; }
+  .services__scene.is-live .cine-stack__card::after { display: none; }
+  .services .service { min-height: 0; }
+}
