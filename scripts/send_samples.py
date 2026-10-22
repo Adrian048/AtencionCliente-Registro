@@ -1,7 +1,7 @@
 """Send the sample requests in samples/consultas.json to the n8n webhook.
 
 Usage:
-    python scripts/send_samples.py [--url http://127.0.0.1:8080/webhook/soporte]
+    python scripts/send_samples.py [--url http://127.0.0.1:9000/webhook/soporte]
 
 The webhook key is read from secrets/webhook_api_key (or $WEBHOOK_API_KEY).
 
@@ -23,7 +23,7 @@ SAMPLES = Path(__file__).resolve().parent.parent / "samples" / "consultas.json"
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url", default="http://127.0.0.1:8080/webhook/soporte")
+    parser.add_argument("--url", default="http://127.0.0.1:9000/webhook/soporte")
     parser.add_argument("--delay", type=float, default=12.0, help="seconds between requests")
     args = parser.parse_args()
 

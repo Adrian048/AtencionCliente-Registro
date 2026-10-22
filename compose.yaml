@@ -1,4 +1,4 @@
-# Only the panel (8080) and the n8n editor (5678) are published, and only on localhost.
+# Only the panel (9000) and the n8n editor (9001) are published, and only on localhost.
 # Public traffic enters through the panel's nginx, which proxies /api and the webhook
 # with rate limiting. Postgres and the API are reachable only inside the compose network.
 #
@@ -61,8 +61,8 @@ services:
     environment:
       # n8n encrypts every stored credential (e.g. the Claude API key) with this key
       N8N_ENCRYPTION_KEY_FILE: /run/secrets/n8n_encryption_key
-      WEBHOOK_URL: http://localhost:8080/          # public entry (nginx)
-      N8N_EDITOR_BASE_URL: http://localhost:5678/  # editor, localhost only
+      WEBHOOK_URL: http://localhost:9000/          # public entry (nginx)
+      N8N_EDITOR_BASE_URL: http://localhost:9001/  # editor, localhost only
       N8N_SECURE_COOKIE: "false"                   # editor served over plain http on localhost
       GENERIC_TIMEZONE: Europe/Madrid
       TZ: Europe/Madrid
@@ -77,7 +77,7 @@ services:
     secrets:
       - n8n_encryption_key
     ports:
-      - "127.0.0.1:5678:5678"
+      - "127.0.0.1:9001:5678"
     volumes:
       - n8n-data:/home/node/.n8n
       - ./n8n/workflows:/workflows:ro
@@ -110,7 +110,7 @@ services:
     <<: *hardening
     build: ./panel
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:9000:8080"
     secrets:
       - webhook_api_key # nginx adds it to requests from the public contact form
     tmpfs:
