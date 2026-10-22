@@ -89,11 +89,11 @@ jobs:
       - name: Generate Docker secrets
         run: python scripts/generate_secrets.py --no-admin
       - run: docker compose up -d --build --wait --wait-timeout 180
-      - run: curl --fail --silent http://127.0.0.1:8080/api/health
+      - run: curl --fail --silent http://127.0.0.1:9000/api/health
       - name: Panel requires login
-        run: test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/api/tickets)" = "401"
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:9000/api/tickets)" = "401"
       - name: Internal ingest endpoint is not exposed
-        run: test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:8080/api/internal/tickets)" = "404"
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:9000/api/internal/tickets)" = "404"
       - name: Secrets are not in environment variables
         run: |
           ! docker compose exec -T api env | grep -v "^GPG_KEY=" | grep -iE "secret|password|key"
